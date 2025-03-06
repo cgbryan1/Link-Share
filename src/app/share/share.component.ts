@@ -6,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { SueService } from '../sue.service';
 
 /**
  * Interface representing a resource submission from the form.
@@ -28,7 +29,11 @@ export class ShareComponent implements OnInit {
   submittedValues: WritableSignal<ResourceSubmission | null> = signal(null);
   isSubmitted: WritableSignal<boolean> = signal(false);
 
-  constructor(private formBuilder: FormBuilder) {}
+  // TODO Inject your service into the ShareComponent's constructor as a private variable.
+  constructor(
+    private formBuilder: FormBuilder,
+    private sueService: SueService
+  ) {}
 
   ngOnInit() {
     this.shareForm = this.formBuilder.group({
@@ -44,15 +49,25 @@ export class ShareComponent implements OnInit {
 
       // TODO: Replace this with actual submission logic!
 
-      // Store the values for display in the submittedValues Signal
-      this.submittedValues.set({
-        type: resourceType,
-        content: resourceContent,
-      });
-      this.isSubmitted.set(true);
-    } else {
-      // Mark all fields as touched to trigger validation visuals
-      this.shareForm.markAllAsTouched();
-    }
+      this.sueService.createShareLink(resourceType, resourceContent).subscribe(
+        (response: any) => {
+          // mad at me for not declaring response/error types
+          this.submittedValues.set({
+            type: resourceType,
+            content: resourceContent,
+          });
+          this.isSubmitted.set(true);
+          this.submittedValues.set({
+            type: resourceType,
+            content: resourceContent,
+          }); // wait did i cook
+        },
+        (error: any) => {
+          this.isSubmitted.set(false);
+          console.error("Couldn't generate a link", error);
+        }
+      );
+    } // id is optional but should i include?
+    // mid way thru step 5 of part 1 RIP
   }
 }
