@@ -1,10 +1,12 @@
 <div class="share-form-container">
   <h2>Amy Admin's Resource View</h2>
   <ul>
-    @for (link of resources; track link) {
+    <!-- // LLM GENERATED CODE (thx chat): https://chatgpt.com/share/67cb6760-5df0-8002-88b0-14332acf3aa5 -->
+    @for (link of resourceList; track link.resource_id) {
     <li>({{ link.resource_type }}): {{ link.content }}</li>
     } @empty {
     <li>There are no resources stored currently.</li>
     }
+    <!--End LLM generated code.-->
   </ul>
 </div>

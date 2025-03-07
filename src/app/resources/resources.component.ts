@@ -33,4 +33,8 @@ export class ResourcesComponent implements OnInit {
 
     this.sueService.getResources().subscribe(observer);
   }
+  // LLM GENERATED CODE (thx chat): https://chatgpt.com/share/67cb6760-5df0-8002-88b0-14332acf3aa5
+  get resourceList() {
+    return this.resources();
+  }
 }
