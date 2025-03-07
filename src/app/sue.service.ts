@@ -32,8 +32,6 @@ export class SueService {
     const body = { content, r_id }; // didn't implement timer so not including that here
     return this.http.post<SueResponse>(`${this.apiLink}/pastebin`, body);
 
-    // TODO check that i did the of right for future ref
-
     /*
     return of({
       // changed given return type to match what my API returns rip

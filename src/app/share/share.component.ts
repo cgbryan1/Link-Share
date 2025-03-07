@@ -17,6 +17,15 @@ interface ResourceSubmission {
   url?: string;
 }
 
+interface receivedURL {
+  type: string;
+  content: string;
+  url?: string;
+}
+
+// create new attribute to store recieved url
+// create writable signal sue response to store signal and
+
 @Component({
   selector: 'app-share',
   standalone: true,
@@ -29,6 +38,8 @@ export class ShareComponent implements OnInit {
 
   submittedValues: WritableSignal<ResourceSubmission | null> = signal(null);
   isSubmitted: WritableSignal<boolean> = signal(false);
+
+  receivedValues: WritableSignal<receivedURL | null> = signal(null);
 
   // TODO Inject your service into the ShareComponent's constructor as a private variable.
   constructor(
@@ -50,18 +61,16 @@ export class ShareComponent implements OnInit {
 
       // TODO: Replace this with actual submission logic!
 
-      if (resourceType == 'Link URL') {
+      if (resourceType == 'url') {
         // this creates a link and then subscribes to it
         this.sueService.createShortURL(resourceContent).subscribe(
-          // how do i add vanity URL support?
           (response: SueResponse) => {
-            // mad at me for not declaring response/error types
             console.log('HTTP Response:', response);
-            this.submittedValues.set({
+            this.receivedValues.set({
               type: resourceType,
               content: resourceContent,
               url: `${this.sueService.apiLink}/${response.resource_id}`,
-            }); // wait did i cook
+            });
           },
           (error: any) => {
             console.log('HTTP error:', error);
@@ -71,16 +80,17 @@ export class ShareComponent implements OnInit {
         );
       }
 
-      if (resourceType == 'Text Snippet') {
+      if (resourceType == 'text') {
         // this creates a pastebin and then subscribes to it
         this.sueService.createPastebin(resourceContent).subscribe(
           (response: SueResponse) => {
             console.log('HTTP Response:', response);
             this.isSubmitted.set(true);
-            this.submittedValues.set({
+            this.receivedValues.set({
               type: resourceType,
               content: resourceContent,
-            }); // wait did i cook
+              url: `${this.sueService.apiLink}/${response.resource_id}`,
+            });
           },
           (error: any) => {
             console.log('HTTP error:', error);
