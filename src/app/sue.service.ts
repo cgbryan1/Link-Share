@@ -26,6 +26,12 @@ export class SueService {
 
   apiLink = 'https://ex01-comp590-140-25sp-cgbryan.apps.unc.edu';
 
+  // need this for amy's access to resource list
+  // i regret naming this file sue now. rip
+  getResources(): Observable<SueResponse[]> {
+    return this.http.get<SueResponse[]>(`${this.apiLink}/resources`);
+  }
+
   // which to call depends on which option they choose in form... implement choice in other file right?
 
   createPastebin(content: string, r_id?: string): Observable<SueResponse> {

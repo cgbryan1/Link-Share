@@ -1,33 +1,33 @@
+// service layer for resources component
 import { Component, OnInit, signal, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SueService } from '../sue.service';
-
-interface Resource {
-  // same as in share component for now
-  type: string;
-  content: string;
-  url?: string;
-}
+import { SueService, SueResponse } from '../sue.service';
 
 @Component({
   selector: 'app-resources',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './resources.component.html',
   styleUrl: './resources.component.css',
 })
-export class ResourcesComponent {
-  resList: WritableSignal<Resource[]> = signal([]); // woooo angular
+export class ResourcesComponent implements OnInit {
+  resources: WritableSignal<SueResponse[]> = signal([]);
 
-  constructor(private sueService: SueService) {} // do i need anything else in my constructor? bc it should b auto accessible
+  constructor(private sueService: SueService) {}
 
+  // from the documentation in the reading yay
   ngOnInit() {
-    this.sueService = this.sueService.subscribe(
-      (response: Resource[]) => {
-        this.resList.set(response);
+    const observer = {
+      next: (response: SueResponse[]) => {
+        console.log('Observer received resources:', response);
+        this.resources.set(response);
       },
-      (error: any) => {
-        console.error("Couldn't get resources:", error);
-      }
-    );
+      error: (error: any) => {
+        console.error('Observer had an error:', error);
+      },
+      // not doing complete sry
+    };
+
+    this.sueService.getResources().subscribe(observer);
   }
 }

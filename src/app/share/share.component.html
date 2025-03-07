@@ -46,11 +46,11 @@
     <div class="success-message">
       <h3>Form Submitted Successfully!</h3>
       <div class="url-display">
-        <p><strong>Resource Type:</strong> {{ submittedValues()?.type }}</p>
-        <p><strong>Content:</strong> {{ submittedValues()?.content }}</p>
-        <p class="todo-message">
+        <p><strong>Resource Type:</strong> {{ receivedValues()?.type }}</p>
+        <p><strong>Content:</strong> {{ receivedValues()?.content }}</p>
+        <a>
           {{ receivedValues()?.url }}
-        </p>
+        </a>
       </div>
     </div>
   </div>
