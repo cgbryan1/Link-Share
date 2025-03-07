@@ -56,6 +56,7 @@ export class ShareComponent implements OnInit {
           // how do i add vanity URL support?
           (response: SueResponse) => {
             // mad at me for not declaring response/error types
+            console.log('HTTP Response:', response);
             this.submittedValues.set({
               type: resourceType,
               content: resourceContent,
@@ -63,6 +64,7 @@ export class ShareComponent implements OnInit {
             }); // wait did i cook
           },
           (error: any) => {
+            console.log('HTTP error:', error);
             this.isSubmitted.set(false);
             console.error("Couldn't generate a link", error);
           }
@@ -73,6 +75,7 @@ export class ShareComponent implements OnInit {
         // this creates a pastebin and then subscribes to it
         this.sueService.createPastebin(resourceContent).subscribe(
           (response: SueResponse) => {
+            console.log('HTTP Response:', response);
             this.isSubmitted.set(true);
             this.submittedValues.set({
               type: resourceType,
@@ -80,6 +83,7 @@ export class ShareComponent implements OnInit {
             }); // wait did i cook
           },
           (error: any) => {
+            console.log('HTTP error:', error);
             this.isSubmitted.set(false);
             console.error("Couldn't generate a pastebin.", error);
           }
