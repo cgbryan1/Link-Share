@@ -15,6 +15,7 @@ export interface SueResponse {
   resource_type: URLType; // how do i import my URLType from the last assignment?
   content: string;
   // timer?: number; didn't implement
+  // views?: number;
 }
 
 @Injectable({
@@ -29,26 +30,28 @@ export class SueService {
 
   createPastebin(content: string, r_id?: string): Observable<SueResponse> {
     const body = { content, r_id }; // didn't implement timer so not including that here
-    // return this.http.post<SueResponse>(`${this.apiLink}/pastebin`, body);
+    return this.http.post<SueResponse>(`${this.apiLink}/pastebin`, body);
 
+    /*
     return of({
       // changed given return type to match what my API returns rip
       resource_id: 'SueDemoPastebin',
       resource_type: URLType.PASTEBIN,
       content: content,
-    });
+    }); */
   }
 
   createShortURL(content: string, r_id?: string): Observable<SueResponse> {
     const body = { content, r_id };
 
-    // return this.http.post<SueResponse>(`${this.apiLink}/redirect`, body);
+    return this.http.post<SueResponse>(`${this.apiLink}/redirect`, body);
 
+    /*
     return of({
       resource_id: 'SueDemoShortURL',
       resource_type: URLType.REDIRECT,
       content: content,
-    });
+    }); */
   }
 }
 
