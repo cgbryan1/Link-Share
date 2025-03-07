@@ -7,7 +7,7 @@ import { Observable, of } from 'rxjs';
 
 export enum URLType {
   PASTEBIN = 'PASTEBIN',
-  REDIRECT = 'REDIRECT',
+  REDIRECT = 'REDIRECT', // just recreating the enum here instead of importing the file lol
 }
 
 export interface SueResponse {
@@ -29,27 +29,28 @@ export class SueService {
 
   createPastebin(content: string, r_id?: string): Observable<SueResponse> {
     const body = { content, r_id }; // didn't implement timer so not including that here
-    // return this.http.post<SueResponse>(`${this.apiLink}/pastebin`, body);
+    return this.http.post<SueResponse>(`${this.apiLink}/pastebin`, body);
 
+    /*
     return of({
       // changed given return type to match what my API returns rip
       resource_id: 'SueDemoPastebin',
       resource_type: URLType.PASTEBIN,
       content: content,
-    });
+    }); */
   }
 
   createShortURL(content: string, r_id?: string): Observable<SueResponse> {
     const body = { content, r_id };
-    // return this.http.post<SueResponse>(`${this.apiLink}/redirect`, body);
 
+    return this.http.post<SueResponse>(`${this.apiLink}/redirect`, body);
+
+    /*
     return of({
-      // changed given return type to match what my API returns rip
-
       resource_id: 'SueDemoShortURL',
       resource_type: URLType.REDIRECT,
       content: content,
-    });
+    }); */
   }
 }
 
