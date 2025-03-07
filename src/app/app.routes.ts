@@ -4,5 +4,6 @@ import { ResourcesComponent } from './resources/resources.component';
 
 export const routes: Routes = [
   { path: '', component: ShareComponent },
-  { path: 'new-resource', component: ResourcesComponent },
+  // step 2.2
+  { path: 'resources', component: ResourcesComponent },
 ];
