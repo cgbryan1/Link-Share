@@ -1,1 +1,10 @@
-<p>Resources works!</p>
+<div class="share-form-container">
+  <h2>Amy Admin's Resource View</h2>
+  <ul>
+    @for (link of resources; track link) {
+    <li>({{ link.resource_type }}): {{ link.content }}</li>
+    } @empty {
+    <li>There are no resources stored currently.</li>
+    }
+  </ul>
+</div>

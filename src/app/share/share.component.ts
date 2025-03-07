@@ -17,14 +17,12 @@ interface ResourceSubmission {
   url?: string;
 }
 
+// OH: create new attribute to store recieved url
 interface receivedURL {
   type: string;
   content: string;
   url?: string;
 }
-
-// create new attribute to store recieved url
-// create writable signal sue response to store signal and
 
 @Component({
   selector: 'app-share',
@@ -39,7 +37,10 @@ export class ShareComponent implements OnInit {
   submittedValues: WritableSignal<ResourceSubmission | null> = signal(null);
   isSubmitted: WritableSignal<boolean> = signal(false);
 
+  // OH: create writable signal sue response to store signal and
   receivedValues: WritableSignal<receivedURL | null> = signal(null);
+
+  resourceList: WritableSignal<SueResponse[]> = signal([]); // so many signals ugh
 
   // TODO Inject your service into the ShareComponent's constructor as a private variable.
   constructor(
@@ -52,6 +53,16 @@ export class ShareComponent implements OnInit {
       type: ['text', [Validators.required]],
       content: ['', [Validators.required, Validators.minLength(3)]],
     });
+
+    this.sueService.getResources().subscribe(
+      (response: SueResponse[]) => {
+        console.log('Got the resources!', response);
+        this.resourceList.set(response); // not update bc it returns full list
+      },
+      (error) => {
+        console.error("Couldn't get resources:", error);
+      }
+    );
   }
 
   onSubmit() {
@@ -66,7 +77,9 @@ export class ShareComponent implements OnInit {
         this.sueService.createShortURL(resourceContent).subscribe(
           (response: SueResponse) => {
             console.log('HTTP Response:', response);
+            this.isSubmitted.set(true);
             this.receivedValues.set({
+              // woo angular
               type: resourceType,
               content: resourceContent,
               url: `${this.sueService.apiLink}/${response.resource_id}`,
@@ -75,7 +88,10 @@ export class ShareComponent implements OnInit {
           (error: any) => {
             console.log('HTTP error:', error);
             this.isSubmitted.set(false);
-            console.error("Couldn't generate a link", error);
+            console.error(
+              "Couldn't generate a pastebin. Check that you submitted a valid link!",
+              error
+            );
           }
         );
       }
@@ -87,18 +103,20 @@ export class ShareComponent implements OnInit {
             console.log('HTTP Response:', response);
             this.isSubmitted.set(true);
             this.receivedValues.set({
+              // woo angular
               type: resourceType,
               content: resourceContent,
               url: `${this.sueService.apiLink}/${response.resource_id}`,
             });
+            console.log('type:', this.receivedValues);
           },
           (error: any) => {
             console.log('HTTP error:', error);
             this.isSubmitted.set(false);
-            console.error("Couldn't generate a pastebin.", error);
+            console.error("Couldn't generate a link for your text.", error);
           }
         );
       }
-    } // id is optional but should i include?
+    }
   }
 }

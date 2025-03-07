@@ -13,6 +13,9 @@ import { SueService, SueResponse } from '../sue.service';
 export class ResourcesComponent implements OnInit {
   resources: WritableSignal<SueResponse[]> = signal([]);
 
+  // resources only works in HTML if it's not a signal but that messes up my code UGH
+  // resources: SueResponse[]> = signal([]);
+
   constructor(private sueService: SueService) {}
 
   // from the documentation in the reading yay

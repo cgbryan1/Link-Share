@@ -48,9 +48,7 @@
       <div class="url-display">
         <p><strong>Resource Type:</strong> {{ receivedValues()?.type }}</p>
         <p><strong>Content:</strong> {{ receivedValues()?.content }}</p>
-        <a>
-          {{ receivedValues()?.url }}
-        </a>
+        <a [attr.href]="receivedValues()?.url">{{ receivedValues()?.url }}</a>
       </div>
     </div>
   </div>
