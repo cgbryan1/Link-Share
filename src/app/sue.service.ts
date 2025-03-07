@@ -4,6 +4,12 @@ import { Observable, of } from 'rxjs';
 
 // If your API returns an object with properties, you will need to define an interface
 // Your method would return Observable<YourInterfaceName>.
+
+export enum URLType {
+  PASTEBIN = 'PASTEBIN',
+  REDIRECT = 'REDIRECT',
+}
+
 export interface SueResponse {
   resource_id: string;
   resource_type: URLType; // how do i import my URLType from the last assignment?
@@ -17,17 +23,40 @@ export interface SueResponse {
 export class SueService {
   constructor(private http: HttpClient) {}
 
-  createShareLink(
-    content: string,
-    type: string,
-    r_id?: string
-  ): Observable<SueResponse> {
+  apiLink = 'https://ex01-comp590-140-25sp-cgbryan.apps.unc.edu';
+
+  // which to call depends on which option they choose in form... implement choice in other file right?
+
+  createPastebin(content: string, r_id?: string): Observable<SueResponse> {
+    const body = { content, r_id }; // didn't implement timer so not including that here
+    // return this.http.post<SueResponse>(`${this.apiLink}/pastebin`, body);
+
+    return of({
+      // changed given return type to match what my API returns rip
+      resource_id: 'SueDemoPastebin',
+      resource_type: URLType.PASTEBIN,
+      content: content,
+    });
+  }
+
+  createShortURL(content: string, r_id?: string): Observable<SueResponse> {
+    const body = { content, r_id };
+    // return this.http.post<SueResponse>(`${this.apiLink}/redirect`, body);
+
+    return of({
+      // changed given return type to match what my API returns rip
+
+      resource_id: 'SueDemoShortURL',
+      resource_type: URLType.REDIRECT,
+      content: content,
+    });
+  }
+}
+
+/* this is not right lol
     return of({
       resource_id: 'https://foo.bar',
       resource_type: URLType.PASTEBIN,
       content: 'hello',
     });
-  }
-
-  // (which will be provided by the component) for creating a resource for your API (e.g. the type of resource and the content of the resource).
-}
+  */

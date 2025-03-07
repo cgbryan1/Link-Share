@@ -6,7 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { SueService } from '../sue.service';
+import { SueResponse, SueService } from '../sue.service';
 
 /**
  * Interface representing a resource submission from the form.
@@ -14,6 +14,7 @@ import { SueService } from '../sue.service';
 interface ResourceSubmission {
   type: string;
   content: string;
+  url?: string;
 }
 
 @Component({
@@ -49,25 +50,41 @@ export class ShareComponent implements OnInit {
 
       // TODO: Replace this with actual submission logic!
 
-      this.sueService.createShareLink(resourceType, resourceContent).subscribe(
-        (response: any) => {
-          // mad at me for not declaring response/error types
-          this.submittedValues.set({
-            type: resourceType,
-            content: resourceContent,
-          });
-          this.isSubmitted.set(true);
-          this.submittedValues.set({
-            type: resourceType,
-            content: resourceContent,
-          }); // wait did i cook
-        },
-        (error: any) => {
-          this.isSubmitted.set(false);
-          console.error("Couldn't generate a link", error);
-        }
-      );
+      if (resourceType == 'Link URL') {
+        // this creates a link and then subscribes to it
+        this.sueService.createShortURL(resourceContent).subscribe(
+          // how do i add vanity URL support?
+          (response: SueResponse) => {
+            // mad at me for not declaring response/error types
+            this.submittedValues.set({
+              type: resourceType,
+              content: resourceContent,
+              url: `${this.sueService.apiLink}/${response.resource_id}`,
+            }); // wait did i cook
+          },
+          (error: any) => {
+            this.isSubmitted.set(false);
+            console.error("Couldn't generate a link", error);
+          }
+        );
+      }
+
+      if (resourceType == 'Text Snippet') {
+        // this creates a pastebin and then subscribes to it
+        this.sueService.createPastebin(resourceContent).subscribe(
+          (response: SueResponse) => {
+            this.isSubmitted.set(true);
+            this.submittedValues.set({
+              type: resourceType,
+              content: resourceContent,
+            }); // wait did i cook
+          },
+          (error: any) => {
+            this.isSubmitted.set(false);
+            console.error("Couldn't generate a pastebin.", error);
+          }
+        );
+      }
     } // id is optional but should i include?
-    // mid way thru step 5 of part 1 RIP
   }
 }
