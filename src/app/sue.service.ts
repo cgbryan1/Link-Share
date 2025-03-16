@@ -4,24 +4,28 @@ import { Observable, of } from 'rxjs';
 
 // If your API returns an object with properties, you will need to define an interface
 
+/*
 export enum URLType {
   PASTEBIN = 'PASTEBIN',
   REDIRECT = 'REDIRECT', // just recreating the enum here instead of importing the file lol
 }
+  */
 
 export interface SueResponse {
   resource_id: string;
-  resource_type: URLType;
+  resource_type: number;
   content: string;
+  timer: number | null;
+  views: number;
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class SueService {
-  constructor(private http: HttpClient) {}
-
   apiLink = 'https://ex01-comp590-140-25sp-cgbryan.apps.unc.edu';
+
+  constructor(private http: HttpClient) {}
 
   // need this for amy's access to resource list
   // i regret naming this file sue now. rip

@@ -1,5 +1,3 @@
-import {{ URLType }} from "../sue.service";
-
 <div class="share-form-container">
   <h2 class="head">Amy Admin's Resource View: Active Resources</h2>
   <table>
@@ -11,7 +9,7 @@ import {{ URLType }} from "../sue.service";
     @for (link of resourceList; track link.resource_id) {
     <tr>
       <td>
-        {{ link.resource_type === URLType.PASTEBIN ? "Pastebin" : "Link URL" }}
+        {{ link.resource_type === 1 ? "Pastebin" : "Link URL" }}
       </td>
       <td>
         {{ link.content }}

@@ -3,7 +3,7 @@ import { Component, OnInit, signal, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SueService, SueResponse } from '../sue.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { URLType } from '../sue.service';
+// import { URLType } from '../sue.service';
 
 @Component({
   selector: 'app-resources',
@@ -12,9 +12,8 @@ import { URLType } from '../sue.service';
   templateUrl: './resources.component.html',
   styleUrls: ['./resources.component.css'],
 })
-export class ResourcesComponent implements OnInit {
+export class ResourcesComponent {
   resources: WritableSignal<SueResponse[]> = signal([]);
-  URLType = URLType;
 
   // resources only works in HTML if it's not a signal but that messes up my code UGH
   // resources: SueResponse[]> = signal([]);
