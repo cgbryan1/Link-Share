@@ -7,13 +7,14 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-resources',
-  standalone: true,
+  // standalone: true,
   imports: [CommonModule],
   templateUrl: './resources.component.html',
   styleUrls: ['./resources.component.css'],
 })
 export class ResourcesComponent {
   resources: WritableSignal<SueResponse[]> = signal([]);
+  // resources: Resource[] = [];
 
   // resources only works in HTML if it's not a signal but that messes up my code UGH
   // resources: SueResponse[]> = signal([]);
@@ -23,9 +24,9 @@ export class ResourcesComponent {
   // from the documentation in the reading yay
   ngOnInit() {
     this.sueService.getResources().subscribe({
-      next: (response: SueResponse[]) => {
-        console.log('Observer received resources:', response);
-        this.resources.set(response);
+      next: (data: SueResponse[]) => {
+        console.log('Observer received resources:', data);
+        this.resources.set(data);
       },
       error: (error: HttpErrorResponse) => {
         console.error('Failed to load resources:', error);

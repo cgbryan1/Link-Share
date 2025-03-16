@@ -72,43 +72,41 @@ export class ShareComponent implements OnInit {
 
       // TODO: Replace this with actual submission logic!
 
-      if (resourceType == 'url') {
-        // this creates a link and then subscribes to it
+      if (resourceType === 'url') {
         this.sueService.createShortURL(resourceContent).subscribe(
           (response: SueResponse) => {
             console.log('HTTP Response:', response);
             this.isSubmitted.set(true);
             this.receivedValues.set({
-              // woo angular
               type: resourceType,
               content: resourceContent,
-              url: `${this.sueService.apiLink}/${response.resource_id}`,
+              url: `${this.sueService.apiLink}/${response.resource_id}`, // Ensure proper interpolation
             });
+            this.resourceList.set([...this.resourceList(), response]);
           },
           (error: any) => {
             console.log('HTTP error:', error);
             this.isSubmitted.set(false);
             console.error(
-              "Couldn't generate a pastebin. Check that you submitted a valid link!",
+              "Couldn't generate a mystery URL. Check that you submitted a valid link!",
               error
             );
           }
         );
       }
-
-      if (resourceType == 'text') {
-        // this creates a pastebin and then subscribes to it
+      if (resourceType === 'text') {
         this.sueService.createPastebin(resourceContent).subscribe(
           (response: SueResponse) => {
             console.log('HTTP Response:', response);
             this.isSubmitted.set(true);
             this.receivedValues.set({
-              // woo angular
               type: resourceType,
               content: resourceContent,
-              url: `${this.sueService.apiLink}/${response.resource_id}`,
+              url: `${this.sueService.apiLink}/${response.resource_id}`, // Ensure proper interpolation
             });
             console.log('type:', this.receivedValues);
+            // Update resource list with the new resource
+            this.resourceList.set([...this.resourceList(), response]);
           },
           (error: any) => {
             console.log('HTTP error:', error);

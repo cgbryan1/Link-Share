@@ -5,6 +5,7 @@
       <th>Resource Type</th>
       <th>Content</th>
       <th>Link</th>
+      <th>Views</th>
     </tr>
     @for (link of resourceList; track link.resource_id) {
     <tr>
@@ -27,6 +28,9 @@
               link.resource_id
           }}
         </a>
+      </td>
+      <td>
+        {{ link.views }}
       </td>
     </tr>
     } @empty {
