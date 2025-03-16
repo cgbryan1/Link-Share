@@ -1,0 +1,33 @@
+* {
+  color: black;
+}
+
+.head {
+  text-align: center;
+}
+
+table,
+th,
+td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 20px;
+}
+
+th {
+  text-align: left;
+  background-color: #f2f2d1;
+}
+
+td {
+  text-align: center;
+}
+
+table {
+  border-spacing: 50px;
+}
+
+.share-form-container {
+  display: flex;
+  flex-direction: column;
+}

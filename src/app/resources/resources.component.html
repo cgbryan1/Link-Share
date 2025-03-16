@@ -1,12 +1,41 @@
+import {{ URLType }} from "../sue.service";
+
 <div class="share-form-container">
-  <h2>Amy Admin's Resource View</h2>
-  <ul>
-    <!-- // LLM GENERATED CODE (thx chat): https://chatgpt.com/share/67cb6760-5df0-8002-88b0-14332acf3aa5 -->
+  <h2 class="head">Amy Admin's Resource View: Active Resources</h2>
+  <table>
+    <tr>
+      <th>Resource Type</th>
+      <th>Content</th>
+      <th>Link</th>
+    </tr>
     @for (link of resourceList; track link.resource_id) {
-    <li>({{ link.resource_type }}): {{ link.content }}</li>
+    <tr>
+      <td>
+        {{ link.resource_type === URLType.PASTEBIN ? "Pastebin" : "Link URL" }}
+      </td>
+      <td>
+        {{ link.content }}
+      </td>
+      <td>
+        <a
+          [href]="
+            'https://ex01-comp590-140-25sp-cgbryan.apps.unc.edu/' +
+            link.resource_id
+          "
+          target="blank"
+        >
+          {{
+            "https://ex01-comp590-140-25sp-cgbryan.apps.unc.edu/" +
+              link.resource_id
+          }}
+        </a>
+      </td>
+    </tr>
     } @empty {
-    <li>There are no resources stored currently.</li>
+    <!-- LLM GENERATED CODE: https://chatgpt.com/share/67cb6760-5df0-8002-88b0-14332acf3aa5 -->
+    <tr>
+      <td colspan="3">There are no resources stored currently.</td>
+    </tr>
     }
-    <!--End LLM generated code.-->
-  </ul>
+  </table>
 </div>

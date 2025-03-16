@@ -2,16 +2,19 @@
 import { Component, OnInit, signal, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SueService, SueResponse } from '../sue.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { URLType } from '../sue.service';
 
 @Component({
   selector: 'app-resources',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './resources.component.html',
-  styleUrl: './resources.component.css',
+  styleUrls: ['./resources.component.css'],
 })
 export class ResourcesComponent implements OnInit {
   resources: WritableSignal<SueResponse[]> = signal([]);
+  URLType = URLType;
 
   // resources only works in HTML if it's not a signal but that messes up my code UGH
   // resources: SueResponse[]> = signal([]);
@@ -20,21 +23,24 @@ export class ResourcesComponent implements OnInit {
 
   // from the documentation in the reading yay
   ngOnInit() {
-    const observer = {
+    this.sueService.getResources().subscribe({
       next: (response: SueResponse[]) => {
         console.log('Observer received resources:', response);
         this.resources.set(response);
       },
-      error: (error: any) => {
-        console.error('Observer had an error:', error);
+      error: (error: HttpErrorResponse) => {
+        console.error('Failed to load resources:', error);
+        this.resources.set([]); // Prevent UI from breaking
       },
-      // not doing complete sry
-    };
-
-    this.sueService.getResources().subscribe(observer);
+    });
   }
+
   // LLM GENERATED CODE (thx chat): https://chatgpt.com/share/67cb6760-5df0-8002-88b0-14332acf3aa5
   get resourceList() {
     return this.resources();
+  }
+
+  trackByResourceId(index: number, item: SueResponse) {
+    return item.resource_id;
   }
 }
