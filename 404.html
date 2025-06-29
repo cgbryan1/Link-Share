@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>423 Link Share</title>
+    <script>
+      // Extract the GitHub username from the URL path
+      var pathSegments = window.location.pathname.split("/");
+      var repoName = "";
+
+      // Find the segment that starts with ex02-linky-
+      for (var i = 0; i < pathSegments.length; i++) {
+        if (pathSegments[i].startsWith("ex02-link-share")) {
+          repoName = pathSegments[i];
+          break;
+        }
+      }
+
+      // Get the remaining path after the repo name
+      var path = window.location.pathname;
+      if (repoName) {
+        var repoIndex = path.indexOf(repoName) + repoName.length;
+        path = path.substring(repoIndex);
+      }
+
+      // Redirect with the correct base href
+      window.location.href =
+        "/ex02-link-share" +
+        (repoName ? repoName.substring(11) : "username") +
+        "/#" +
+        path;
+    </script>
+  </head>
+  <body>
+    <p>Redirecting...</p>
+  </body>
+</html>
