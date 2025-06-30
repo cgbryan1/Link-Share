@@ -1,6 +1,6 @@
 # Angular Demo Project (COMP 423)
 
-A modern web application for sharing content through shortened URLs or text snippets. Built with FastAPI, Angular, and deployed using OKD and GitHub Pages, this tool provides a seamless experience for both content sharers and viewers while giving administrators visibility and control over shared content. Created in part with [Katie Brown](https://github.com/kgbrown5). TODO
+A modern web application for sharing content through shortened URLs or text snippets. Built with FastAPI, Angular, and deployed using OKD and GitHub Pages, this tool provides a seamless experience for both content sharers and viewers while giving administrators visibility and control over shared content. Created in part with [Katie Brown](https://github.com/kgbrown5).
 
 Check out the Github pages frontend [here](https://comp423-25s.github.io/ex02-link-share-cgbryan1/#/resources)!
 
@@ -62,7 +62,7 @@ All endpoints are grouped by persona via openapi_tags:
 
 All routes are documented using OpenAPI with field descriptions, request/response models, and sample inputs.
 
-This portion of the project was created with Katie Brown.
+This portion of the project was created with [Katie Brown](https://github.com/kgbrown5).
 
 ### Angular Frontend (Phase 2)
 
